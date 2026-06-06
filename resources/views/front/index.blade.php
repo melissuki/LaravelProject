@@ -46,7 +46,11 @@
                         </div>
 
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                            <div class="text-center">
+                                <button class="btn btn-outline-dark mt-auto" onclick="addToCart('{{ $product->name }}')">
+                                    Add to Cart
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -61,5 +65,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('assets/js/scripts.js') }}"></script>
+
+<script>
+    function addToCart(productName) {
+        alert(productName + " added to your cart!");
+    }
+</script>
+
 </body>
 </html>

@@ -1,12 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomeController; // HomeController'ı içeri aktardık
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('front.index');
-});
-
+// Ana sayfayı HomeController içindeki index fonksiyonuna bağladık
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

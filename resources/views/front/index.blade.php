@@ -36,8 +36,12 @@
 
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
+        @if(session('success'))
+            <div class="alert alert-success text-center mb-4">{{ session('success') }}</div>
+        @endif
+
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             @foreach($products as $product)
                 <div class="col mb-5">
                     <div class="card h-100">
@@ -54,9 +58,13 @@
 
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <div class="text-center">
-                                <button class="btn btn-outline-dark mt-auto" onclick="addToCart('{{ $product->name }}')">
-                                    Add to Cart
-                                </button>
+                                <form action="{{ route('cart.add') }}" method="POST" class="m-0">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $product->id }}">
+                                    <button type="submit" class="btn btn-outline-dark mt-auto">
+                                        Add to Cart
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -72,26 +80,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('assets/js/scripts.js') }}"></script>
-
-<script>
-    function addToCart(productName) {
-        fetch('{{ route("cart.add") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({ name: productName })
-        })
-            .then(response => response.json())
-            .then(data => {
-                alert(productName + " added to your cart!");
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
-</script>
 
 </body>
 </html>

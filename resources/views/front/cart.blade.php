@@ -23,42 +23,46 @@
     <div class="container px-4 px-lg-5 mt-5">
         <h2 class="fw-bolder mb-4">Your Shopping Cart</h2>
 
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+
         @if(empty($cart))
             <div class="alert alert-info">
-                Your cart is currently empty. Start shopping now to find your favorite items!
+                Your cart is currently empty.
             </div>
             <a href="/" class="btn btn-dark">Start Shopping</a>
         @else
             <ul class="list-group mb-4">
-                @foreach($cart as $index => $item)
+                @foreach($cart as $id => $item)
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{ $item }}
-                        <button class="btn btn-danger btn-sm" onclick="removeItem({{ $index }})">
-                            Remove
-                        </button>
+                        <div>
+                            <h6 class="my-0">{{ $item['name'] }}</h6>
+                            <small class="text-muted">${{ number_format($item['price'], 2) }}</small>
+                        </div>
+                        <form action="{{ route('cart.remove') }}" method="POST" class="m-0">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $id }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
                     </li>
                 @endforeach
             </ul>
-            <a href="/" class="btn btn-dark">Keep Shopping</a>
+
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="/" class="btn btn-dark">Keep Shopping</a>
+
+                <form action="{{ route('checkout') }}" method="POST" class="m-0">
+                    @csrf
+                    <button type="submit" class="btn btn-success btn-lg">Checkout</button>
+                </form>
+            </div>
         @endif
     </div>
 </section>
-<script>
-    function removeItem(index) {
-        fetch('{{ route("cart.remove") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({ index: index })
-        })
-            .then(response => response.json())
-            .then(data => {
-                location.reload();
-            })
-            .catch(error => console.error('Error:', error));
-    }
-</script>
 </body>
 </html>

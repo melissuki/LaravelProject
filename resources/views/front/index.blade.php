@@ -41,7 +41,9 @@
             @foreach($products as $product)
                 <div class="col mb-5">
                     <div class="card h-100">
-                        <img class="card-img-top" src="{{ asset('assets/images/' . $product->image) }}" alt="{{ $product->name }}" />
+                        <a href="{{ route('product.show', $product->id) }}">
+                            <img class="card-img-top" src="{{ asset('assets/images/' . $product->image) }}" alt="{{ $product->name }}" />
+                        </a>
 
                         <div class="card-body p-4">
                             <div class="text-center">

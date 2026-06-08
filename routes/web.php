@@ -33,4 +33,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
 Route::post('/remove-from-cart', [CartController::class, 'removeItem'])->name('cart.remove');
 
+Route::get('/product/{id}' , [HomeController::class, 'show'])->name('product.show');
+
+
+
 require __DIR__.'/auth.php';

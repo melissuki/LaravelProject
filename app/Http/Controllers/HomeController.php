@@ -20,4 +20,10 @@ class HomeController extends Controller
 
         return view('front.index', compact('products'));
     }
+    public function show($id) {
+        $product = \App\Models\Product::findOrFail($id);
+        return view('front.product-detail', compact('product'));
+    }
+
 }
+

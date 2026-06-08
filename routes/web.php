@@ -1,15 +1,22 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\HomeController; // HomeController'ı içeri aktardık
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 
-// Ana sayfayı HomeController içindeki index fonksiyonuna bağladık
+
 Route::get('/', [HomeController::class, 'index']);
+
+
+Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -17,10 +24,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'admin']) ->prefix('admin')->group(function () {
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function() {
         return view('admin.dashboard');
     })->name('admin.dashboard');
 });
+
+Route::post('/remove-from-cart', [CartController::class, 'removeItem'])->name('cart.remove');
 
 require __DIR__.'/auth.php';

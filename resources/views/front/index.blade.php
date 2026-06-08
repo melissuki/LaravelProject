@@ -17,6 +17,10 @@
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('cart') }}">Cart</a></li>
             </ul>
+            <form class="d-flex" action="/" method="GET">
+                <input class="form-control me-2" type="search" name="search" placeholder="Search products..." aria-label="Search">
+                <button class="btn btn-outline-dark" type="submit">Search</button>
+            </form>
         </div>
     </div>
 </nav>

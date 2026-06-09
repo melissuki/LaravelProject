@@ -14,25 +14,7 @@ Route::post('/remove-from-cart', [CartController::class, 'removeItem'])->name('c
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart');
 Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
 
-Route::get('/admin-panel', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard');
-
-Route::get('/admin/products', function () {
-    return view('admin.products');
-})->name('admin.products');
-
-Route::get('/admin/products/create', function () {
-    return view('admin.products-create');
-})->name('admin.products.create');
-
-Route::post('/admin/products/store', [AdminController::class, 'storeProduct'])
-    ->name('admin.products.store');
-
-Route::get('/admin/orders', function () {
-    return view('admin.orders');
-})->name('admin.orders');
-
+// ADMIN LOGIN KISMI
 Route::get('/admin/login', function () {
     return view('admin.login');
 })->name('admin.login');
@@ -44,6 +26,34 @@ Route::post('/admin/login', function (Request $request) {
     }
     return back();
 })->name('admin.login.post');
+
+// ADMIN PANELLERI
+Route::get('/admin-panel', function () {
+    if (!session('admin_logged')) return redirect()->route('admin.login');
+    return view('admin.dashboard');
+})->name('admin.dashboard');
+
+Route::get('/admin/products', function () {
+    if (!session('admin_logged')) return redirect()->route('admin.login');
+    return view('admin.products');
+})->name('admin.products');
+
+Route::get('/admin/products/create', function () {
+    if (!session('admin_logged')) return redirect()->route('admin.login');
+    return view('admin.products-create');
+})->name('admin.products.create');
+
+Route::get('/admin/orders', function () {
+    if (!session('admin_logged')) return redirect()->route('admin.login');
+    return view('admin.orders');
+})->name('admin.orders');
+
+// ADMIN CRUD İŞLEMLERİ
+Route::post('/admin/products/store', [AdminController::class, 'storeProduct'])->name('admin.products.store');
+Route::get('/admin/products/{id}/edit', [AdminController::class, 'editProduct'])->name('admin.products.edit');
+Route::put('/admin/products/{id}', [AdminController::class, 'updateProduct'])->name('admin.products.update');
+Route::delete('/admin/products/{id}', [AdminController::class, 'deleteProduct'])->name('admin.products.destroy');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

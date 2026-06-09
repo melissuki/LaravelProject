@@ -32,13 +32,13 @@
         @endif
 
         @if(empty($cart))
-            <div class="alert alert-info">
-                Your cart is currently empty.
-            </div>
+            <div class="alert alert-info">Your cart is currently empty.</div>
             <a href="/" class="btn btn-dark">Start Shopping</a>
         @else
             <ul class="list-group mb-4">
+                @php $cartTotal = 0; @endphp
                 @foreach($cart as $id => $item)
+                    @php $cartTotal += $item['price']; @endphp
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="my-0">{{ $item['name'] }}</h6>
@@ -51,6 +51,11 @@
                         </form>
                     </li>
                 @endforeach
+
+                <li class="list-group-item d-flex justify-content-between bg-dark text-white">
+                    <span>Total (USD)</span>
+                    <strong>${{ number_format($cartTotal, 2) }}</strong>
+                </li>
             </ul>
 
             <div class="d-flex justify-content-between align-items-center">

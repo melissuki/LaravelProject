@@ -17,10 +17,10 @@ This project was developed and tested on a modern **macOS** environment using th
 
 ## ⚙️ How to Install and Run the Project
 
-1. **Clone the repository:** `git clone https://github.com/melissuki/Laravel-Project.git`
+1. **Clone the repository:** `git clone https://github.com/melissuki/LaravelProject.git`
 
 
-2. **Navigate to the project directory:** `cd Laravel-Project`
+2. **Navigate to the project directory:** `cd LaravelProject`
 
 
 3. **Install dependencies:** `composer install`

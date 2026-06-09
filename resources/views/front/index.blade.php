@@ -17,6 +17,30 @@
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('cart') }}">Cart</a></li>
             </ul>
+
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-3">
+                @auth
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-fill"></i> {{ Auth::user()->name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}" class="m-0 px-2">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-danger w-100 text-start">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                @else
+                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li>
+                @endauth
+            </ul>
+
             <form class="d-flex" action="/" method="GET">
                 <input class="form-control me-2" type="search" name="search" placeholder="Search products..." aria-label="Search">
                 <button class="btn btn-outline-dark" type="submit">Search</button>
@@ -52,6 +76,7 @@
                         <div class="card-body p-4">
                             <div class="text-center">
                                 <h5 class="fw-bolder">{{ $product->name }}</h5>
+                                <p class="text-muted small mb-2">{{ $product->description }}</p>
                                 ${{ number_format($product->price, 2) }}
                             </div>
                         </div>
